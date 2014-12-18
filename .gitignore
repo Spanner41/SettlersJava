@@ -1,0 +1,5 @@
+*.class
+build/classes/.netbeans_automatic_build
+build/classes/.netbeans_update_resources
+build/classes/resources/expansionBoard.config
+build/classes/resources/standardBoard.config
