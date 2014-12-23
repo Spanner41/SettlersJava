@@ -22,6 +22,7 @@ public class Corner {
     Edge[] edges = new Edge[3];
     private int edgeCount = 0;
     
+    Point vertex;
     int playerID; //starts at -1
     int building; //starts at -1, road blocked: 0, settlement: 1, city:2
     int port;
@@ -30,6 +31,7 @@ public class Corner {
         playerID = -1;
         building = EMPTY;
         port = NO_PORT;
+        vertex = null;
     }
     
     public void addTile(Tile tile){

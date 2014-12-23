@@ -11,6 +11,8 @@ public class Board {
     boolean shuffleChits;
     boolean shufflePorts;
     boolean complete;
+    double width;
+    double height;
 
     public static Board getInstance() {
         if (board == null) {
@@ -26,10 +28,13 @@ public class Board {
         shuffleChits = false;
         shufflePorts = false;
         complete = false;
+        width = 0;
+        height = 0;
     }
 
     public void build() {
-        final String path = "/resources/expansionBoard.config";
+        //Eventually, choose this from a menu.
+        final String path = "/resources/standardBoard.config";
         InputFileParser fileParser = new InputFileParser(path);
 
         int cornerCount = fileParser.next();
@@ -66,10 +71,10 @@ public class Board {
             }//end for
         }//end for
 
-        System.out.println("tileTypes");
         //Insert tiles and chits
         for (int i = 0; i < tiles.length; i++) {
             tiles[i] = tileStack.randomElement();
+            tiles[i].setID(i);
 
             for (int j = 0; j < CORNER_NUM; j++) {
                 int corner = fileParser.next();
@@ -134,7 +139,7 @@ public class Board {
         return false;
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
      Board board = new Board();
      board.build();
      }//end */

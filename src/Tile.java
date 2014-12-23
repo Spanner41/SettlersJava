@@ -7,6 +7,7 @@ public class Tile {
     static final int FIELD = 3;
     static final int FOREST = 4;
     
+    int id;
     Chit chit;
     int type;
     Corner[] corners;
@@ -63,5 +64,9 @@ public class Tile {
     void addCorner(Corner c) {
         corners[cornerCount] = c;
         cornerCount++;
+    }
+
+    void setID(int i) {
+        id = i;
     }
 }

@@ -19,7 +19,6 @@ public class InputFileParser {
             scanner.nextLine();
             return next();
         }//end if
-        System.out.println(next);
         return Integer.parseInt(next);
     }
     
