@@ -1,3 +1,8 @@
+/////////////////////////////////////////////
+// File: Shuffler.java
+// Authors: Brady Steed and Michael Eaton
+// Purpose: An ArrayList that can remove and return a random element
+
 import java.util.ArrayList;
 import java.util.Random;
 

@@ -1,3 +1,8 @@
+/////////////////////////////////////////////
+// File: PlayerManager.java
+// Authors: Brady Steed and Michael Eaton
+// Purpose: Player factory and keeps a list of players.
+
 import java.util.ArrayList;
 
 public class PlayerManager {

@@ -1,3 +1,8 @@
+/////////////////////////////////////////////
+// File: BoardBuilder.java
+// Authors: Brady Steed and Michael Eaton
+// Purpose: Builds and defines coordinates for Board object.
+
 import java.util.LinkedList;
 
 public class BoardBuilder {
@@ -54,11 +59,7 @@ public class BoardBuilder {
                 }//end for
             }//end for
         }//end while
-        for (int i = 0; i < board.corners.length; i++) {
-            if(board.corners[i].vertex == null)
-                System.out.println(i);
-            
-        }
+        
         for (Corner corner : board.corners) {
             if(corner.vertex == null){
                 System.out.println(corner);

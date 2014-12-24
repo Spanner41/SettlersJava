@@ -3,3 +3,10 @@ build/classes/.netbeans_automatic_build
 build/classes/.netbeans_update_resources
 build/classes/resources/expansionBoard.config
 build/classes/resources/standardBoard.config
+build/classes/resources/images/sea.png
+build/classes/resources/images/pasture.png
+build/classes/resources/images/plane.png
+build/classes/resources/images/mountain.png
+build/classes/resources/images/hills.png
+build/classes/resources/images/forest.png
+build/classes/resources/images/desert.png

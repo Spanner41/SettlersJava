@@ -1,3 +1,9 @@
+/////////////////////////////////////////////
+// File: Player.java
+// Authors: Brady Steed and Michael Eaton
+// Purpose: Abstract class that is controlled by PlayerManager.
+//  Holds game data for players.  All game interaction methods are abstract.
+
 import java.util.Random;
 
 public abstract class Player {

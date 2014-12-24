@@ -1,4 +1,13 @@
-//Create protocol.  Stuff socket.
+/////////////////////////////////////////////
+// File: NetworkPlayer.java
+// Authors: Brady Steed and Michael Eaton
+// Purpose: Sends and recieves commands via sockets.
+// TODO:
+//   Create protocol.  Stuff sockets.
+//   Change NetworkPlayer into an AI Strategy.
+//   Encryption
+//   Anti-cheating
+
 class NetworkPlayer extends Player {
 
     public NetworkPlayer(int id) {

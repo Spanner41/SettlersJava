@@ -1,3 +1,8 @@
+/////////////////////////////////////////////
+// File: Chit.java
+// Authors: Brady Steed and Michael Eaton
+// Purpose: Notifies Tiles of when to produce resources
+
 public class Chit {
     int value;
     int dots;

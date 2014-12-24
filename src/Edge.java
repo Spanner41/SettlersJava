@@ -1,7 +1,8 @@
-/**
- *
- * @author brady_000
- */
+/////////////////////////////////////////////
+// File: Edge.java
+// Authors: Brady Steed and Michael Eaton
+// Purpose: Edges keep track of roads.  Attached to a corner at either end.
+
 public class Edge {
     Corner left;
     Corner right;

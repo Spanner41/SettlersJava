@@ -1,7 +1,9 @@
-/**
- *
- * @author brady_000
- */
+/////////////////////////////////////////////
+// File: Corner.java
+// Authors: Brady Steed and Michael Eaton
+// Purpose: Corners serve as vertexes for Tiles and Edges.
+//  Tracks cities and settlements
+
 public class Corner {
     //TODO: consult rules and fix logic...
     static final int EMPTY = -1;

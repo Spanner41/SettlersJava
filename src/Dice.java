@@ -1,3 +1,8 @@
+/////////////////////////////////////////////
+// File: Dice.java
+// Authors: Brady Steed and Michael Eaton
+// Purpose: Gives random number from 2-12 with the same odds as rolling 2 dice.
+
 import java.util.Random;
 
 public class Dice {

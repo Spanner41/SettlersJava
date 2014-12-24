@@ -1,6 +1,12 @@
-//Write AI code in each function.
-//Possibly turn into strategy interface
-//Version 2 idea: Make NetworkPlayer a strategy.  A player can drop out of or jump into a current game.
+/////////////////////////////////////////////
+// File: ComputerPlayer.java
+// Authors: Brady Steed and Michael Eaton
+// Purpose: Default computer player.  Still up for design.
+// TODO:
+//   Write AI code in each function.
+//   Possibly turn into strategy interface
+//   Version 2 idea: Make NetworkPlayer a strategy.  A player can drop out of or jump into a current game.
+
 class ComputerPlayer extends Player {
 
     public ComputerPlayer(int id) {

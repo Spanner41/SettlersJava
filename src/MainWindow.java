@@ -1,8 +1,12 @@
+/////////////////////////////////////////////
+// File: MainWindow.java
+// Authors: Brady Steed and Michael Eaton
+// Purpose: Initializes and displays GUI
+
 import javafx.scene.paint.Color;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.scene.canvas.Canvas;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -22,13 +26,9 @@ public class MainWindow extends Application{
     public void start(Stage primaryStage){
         primaryStage.setTitle("Settlers of Catan");
         
-        Scene scene = new Scene(new GamePane(), Color.BLACK);
+        Scene scene = new Scene(new GamePane(), 800, 800, Color.BLACK);
         primaryStage.setScene(scene);
         primaryStage.show();
-    }
-    
-    public Canvas createCanvas(){
-        return new Canvas();
     }
     
     public static void main(String[] args){

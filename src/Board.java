@@ -1,3 +1,9 @@
+/////////////////////////////////////////////
+// File: Board.java
+// Authors: Brady Steed and Michael Eaton
+// Purpose: Singleton class that represents a Catan board.
+//   Keeps track of board state.
+
 //TODO: subclass for expansions
 public class Board {
 
@@ -64,7 +70,7 @@ public class Board {
 
         //Create and shuffle tiles and chits(circular number tokens)
         Shuffler<Tile> tileStack = new Shuffler();
-        for (int i = -1; i < Tile.TILE_TYPES - 1; i++) {
+        for (int i = 0; i < Tile.TILE_TYPES; i++) {
             int count = fileParser.next();
             for (int j = 0; j < count; j++) {
                 tileStack.add(new Tile(i));
@@ -138,9 +144,4 @@ public class Board {
     public boolean placeCity(int playerID, Corner location) {
         return false;
     }
-
-    /*public static void main(String[] args) {
-     Board board = new Board();
-     board.build();
-     }//end */
 }

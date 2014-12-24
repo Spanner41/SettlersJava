@@ -1,11 +1,21 @@
+/////////////////////////////////////////////
+// File: Tile.java
+// Authors: Brady Steed and Michael Eaton
+// Purpose: Tile object has refrences to its corners and keeps track of paint related stuff
+// TODO:
+//   Add texture/3D model stuff
+
+import javafx.scene.paint.Color;
+
 public class Tile {
-    static final int TILE_TYPES = 6;
-    static final int DESERT = -1;
+    static final int TILE_TYPES = 7;
     static final int MOUNTAIN = 0;
     static final int PASTURE = 1;
     static final int HILL = 2;
     static final int FIELD = 3;
     static final int FOREST = 4;
+    static final int DESERT = 5;
+    static final int SEA = 6;
     
     int id;
     Chit chit;
@@ -34,6 +44,19 @@ public class Tile {
             case FIELD: return "field";
             case FOREST: return "forest";
             default: return "none";
+        }
+    }
+    
+    public Color getColor(){
+        switch(this.type){
+            case DESERT: return Color.ANTIQUEWHITE;
+            case MOUNTAIN: return Color.DARKGREY;
+            case PASTURE: return Color.CHARTREUSE;
+            case HILL: return Color.MAROON;
+            case FIELD: return Color.GOLDENROD;
+            case FOREST: return Color.DARKGREEN;
+            case SEA: return Color.LIGHTBLUE;
+            default: return Color.LIGHTBLUE;
         }
     }
     

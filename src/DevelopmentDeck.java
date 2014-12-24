@@ -1,4 +1,10 @@
-//Configure for expansions.  Need to add more card types and put deck ammounts in config file.
+/////////////////////////////////////////////
+// File: DevelopmentDeck.java
+// Authors: Brady Steed and Michael Eaton
+// Purpose: Gives development cards to players in random order.
+// TODO:
+//   Configure for expansions.  Need to add more card types and put deck ammounts in config file.
+
 public class DevelopmentDeck extends Shuffler<Integer> {
     private static DevelopmentDeck devDeck;
     final static int SOLDIER = 0;

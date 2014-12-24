@@ -1,12 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author brady_000
- */
+/////////////////////////////////////////////
+// File: Point.java
+// Authors: Brady Steed and Michael Eaton
+// Purpose: Holds 3D vertex info.
+// TODO:
+//   Possibly change to 2D.
+
 public class Point {
     double x,y,z;
     

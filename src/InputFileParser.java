@@ -1,3 +1,9 @@
+/////////////////////////////////////////////
+// File: InputFileParser.java
+// Authors: Brady Steed and Michael Eaton
+// Purpose: Parses a file.  Can only read integers.
+//  Counts "//" until the end of line as comments.
+
 import java.io.InputStream;
 import java.util.Scanner;
 

@@ -1,4 +1,11 @@
-//Create frames and return data.  Need to create assets for prompts.
+/////////////////////////////////////////////
+// File: HumanPlayer.java
+// Authors: Brady Steed and Michael Eaton
+// Purpose: Triggers events for MainWindow/GamePane
+// TODO:
+//   Need to create assets for prompts.
+//   Not yet implemented
+
 class HumanPlayer extends Player {
 
     public HumanPlayer(int id) {

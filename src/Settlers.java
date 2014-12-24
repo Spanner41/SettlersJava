@@ -1,11 +1,12 @@
-/**
- *
- * @author brady_000
- */
+/////////////////////////////////////////////
+// File: Settlers.java
+// Authors: Brady Steed and Michael Eaton
+// Purpose: Main class of project.  Not yet implemented.
+
 public class Settlers {
     
     public static void main(String[] args) {
-        Board board = Board.getInstance();
+        
     }
     
     public void createGame(){
