@@ -10,6 +10,7 @@
 
 import javafx.scene.paint.Color;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
@@ -68,8 +69,10 @@ public class MainWindow extends Application {
         subscene.setFill(Color.BLACK);
         subscene.setCamera(camera);
         
-        subscene.addEventHandler(MouseEvent.MOUSE_DRAGGED, (MouseEvent event) -> {
-            double currentPositionX = event.getX();
+        subscene.addEventHandler(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                double currentPositionX = event.getX();
             double currentPositionY = event.getY();
             double dx = currentPositionX - oldPositionX;
             double dy = oldPositionY - currentPositionY;
@@ -89,11 +92,15 @@ public class MainWindow extends Application {
             
             oldPositionX = currentPositionX;
             oldPositionY = currentPositionY;
+            }
         });
         
-        subscene.addEventHandler(MouseEvent.MOUSE_PRESSED, (MouseEvent event) -> {
-            oldPositionX = event.getX();
+        subscene.addEventHandler(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                oldPositionX = event.getX();
             oldPositionY = event.getY();
+            }
         });
         
         Group root = new Group();
