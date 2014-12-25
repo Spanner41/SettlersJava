@@ -5,7 +5,12 @@
 // TODO:
 //   Add texture/3D model stuff
 
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.DrawMode;
+import javafx.scene.shape.MeshView;
+import javafx.scene.transform.Rotate;
 
 public class Tile {
     static final int TILE_TYPES = 7;
@@ -20,11 +25,46 @@ public class Tile {
     int id;
     Chit chit;
     int type;
+    Point center = null;
     Corner[] corners;
     int cornerCount = 0;
+    private MeshView mesh = null;
+    private Image texture = null;
+    PhongMaterial texturedMaterial = new PhongMaterial();
+    private float rotation;
+
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
+        if(mesh!= null){
+            mesh.setRotationAxis(Rotate.Y_AXIS);
+            mesh.setRotate(rotation);
+        }
+    }
+
+    public float getRotation() {
+        return rotation;
+    }
+
+    public Image getTexture() {
+        return texture;
+    }
+
+    public MeshView getMesh() {
+        return mesh;
+    }
+
+    public void setTexture(Image texture) {
+        this.texture = texture;
+    }
+
+    public void setMesh(MeshView mesh) {
+        this.mesh = mesh;
+        mesh.setDrawMode(DrawMode.FILL);
+        mesh.setRotate(rotation);
+    }
     
     public Tile(int type){
-        if(type < -1 || type > 4) System.out.println("Invalid tile type: " + type);
+        if(type < 0 || type > 6) System.out.println("Invalid tile type: " + type);
         this.type = type;
         corners = new Corner[6];
     }//end Tile
@@ -43,6 +83,7 @@ public class Tile {
             case HILL: return "hill";
             case FIELD: return "field";
             case FOREST: return "forest";
+            case SEA: return "sea";
             default: return "none";
         }
     }
@@ -60,24 +101,20 @@ public class Tile {
         }
     }
     
-    //TODO: write this function.
-    void produce(){
-        /*
-        String str;
+    public String getResourceString(){
         switch(this.type){
-            case SEA: str = "nothing"; break;
-            case DESERT: str = "nothing"; break;
-            case MOUNTAIN: str = "ore"; break;
-            case PASTURE: str = "sheep"; break;
-            case HILL: str = "brick"; break;
-            case FIELD: str = "wheat"; break;
-            case FOREST: str = "lumber"; break;
-            default: str = "nothing";
+            case DESERT: return "/resources/images/desert.png";
+            case MOUNTAIN: return "/resources/images/mountain.png";
+            case PASTURE: return "/resources/images/pasture.png";
+            case HILL: return "/resources/images/hills.png";
+            case FIELD: return "/resources/images/plane.png";
+            case FOREST: return "/resources/images/forest.png";
+            case SEA: return "/resources/images/sea.png";
+            default: return null;
         }
-        
-        System.out.println(chit.value + " was rolled. " + str + "was produced.");
-        */
-        
+    }
+    
+    void produce(){
         for(Corner c: corners){
             if(c==null) continue;
             c.produce(type);
