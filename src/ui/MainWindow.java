@@ -1,3 +1,5 @@
+package ui;
+
 /////////////////////////////////////////////
 // File: MainWindow.java
 // Authors: Brady Steed and Michael Eaton
@@ -8,14 +10,21 @@
 //     I
 // (Y) V
 
+import player.Player;
+import player.PlayerManager;
+import game.Board;
+import game.DevelopmentDeck;
 import javafx.scene.paint.Color;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Camera;
 import javafx.scene.Group;
 import javafx.scene.PerspectiveCamera;
+import javafx.scene.PointLight;
 import javafx.scene.Scene;
+import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
@@ -37,15 +46,17 @@ public class MainWindow extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Settlers of Catan");
-        Group root;
+        Group root = new Group();
         GameGroup game = new GameGroup();
         Group cameraGroup = new Group();
+        Group uiGroup = new Group();
 
         game.addTiles();
         
-        root = setupCamera(cameraGroup);
+        SubScene uiScene = drawUI(uiGroup);
+        SubScene cameraScene = setupCamera(cameraGroup);
+        root.getChildren().addAll(cameraScene, uiScene);
         
-        cameraGroup.getChildren().add(cameraTheta);
         cameraGroup.getChildren().add(game);
         
         Scene scene = new Scene(root);
@@ -53,15 +64,33 @@ public class MainWindow extends Application {
         primaryStage.show();
     }
     
-    public Group setupCamera(Group cameraGroup){
-        Camera camera = new PerspectiveCamera(true);
+    public SubScene drawUI(Group uiGroup){
+        SubScene subscene = new SubScene(uiGroup, 500, 300, true, SceneAntialiasing.BALANCED);
+        
+        for (int i = 0; i < DevelopmentDeck.images.length; i++) {
+            Canvas canvas = DevelopmentDeck.images[i];
+            double scaleFactor = 50/canvas.getHeight();
+            canvas.setScaleX(scaleFactor);
+            canvas.setScaleY(scaleFactor);
+            uiGroup.getChildren().add(canvas);
+            canvas.relocate((canvas.getWidth()*scaleFactor) * (i - .5) , (canvas.getHeight()*scaleFactor) * -.5);
+        }
+        
+        return subscene;
+    }
     
+    public SubScene setupCamera(Group cameraGroup){
+        Camera camera = new PerspectiveCamera(true);
+        PointLight light = new PointLight(Color.WHITE);
+        light.setTranslateY(-20);
+        
         camera.setNearClip(0);
         camera.setFarClip(17);
         cameraPhi.getChildren().add(camera);
         cameraTheta.getChildren().add(cameraPhi);
         cameraPhi.setRotationAxis(Rotate.X_AXIS);
-
+        
+        cameraGroup.getChildren().addAll(cameraTheta, light);
         camera.getTransforms().add(new Translate(0, 0, -20));
         
         
@@ -103,14 +132,15 @@ public class MainWindow extends Application {
             }
         });
         
-        Group root = new Group();
-        root.getChildren().add(subscene);
-        return root;
+        return subscene;
     }
 
     public static void main(String[] args) {
+        Player test = PlayerManager.createInstance("Human");
+        DevelopmentDeck.loadImages("/resources/images/developmentCards.png");
+        test.giveResources(new int[]{0, 1, 2, 3, 4});
         Board.getInstance();
-        BoardBuilder.placeTiles();
+        Board.placeTiles();
         launch(args);
     }
 }

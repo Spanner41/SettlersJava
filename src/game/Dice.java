@@ -1,3 +1,5 @@
+package game;
+
 /////////////////////////////////////////////
 // File: Dice.java
 // Authors: Brady Steed and Michael Eaton

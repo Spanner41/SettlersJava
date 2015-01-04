@@ -3,11 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/brady_000/Documents/NetBeansProjects/Settlers/src/Board.java</file>
-            <file>file:/C:/Users/brady_000/Documents/NetBeansProjects/Settlers/src/MainWindow.java</file>
-            <file>file:/C:/Users/brady_000/Documents/NetBeansProjects/Settlers/src/BoardBuilder.java</file>
-            <file>file:/C:/Users/brady_000/Documents/NetBeansProjects/Settlers/src/GameGroup.java</file>
-            <file>file:/C:/Users/brady_000/Documents/NetBeansProjects/Settlers/src/Tile.java</file>
+            <file>file:/C:/Users/brady_000/Documents/NetBeansProjects/Settlers/src/game/Chit.java</file>
+            <file>file:/C:/Users/brady_000/Documents/NetBeansProjects/Settlers/src/ui/GameGroup.java</file>
+            <file>file:/C:/Users/brady_000/Documents/NetBeansProjects/Settlers/src/game/Board.java</file>
         </group>
     </open-files>
 </project-private>

@@ -1,34 +1,42 @@
+package player;
+
 /////////////////////////////////////////////
 // File: Player.java
 // Authors: Brady Steed and Michael Eaton
 // Purpose: Abstract class that is controlled by PlayerManager.
 //  Holds game data for players.  All game interaction methods are abstract.
 
+import game.Edge;
+import game.Board;
+import game.Corner;
+import game.DevelopmentDeck;
 import java.util.Random;
 
-public abstract class Player {
+public class Player {
 
-    static final int ORE = 0;
-    static final int SHEEP = 1;
-    static final int BRICK = 2;
-    static final int WHEAT = 3;
-    static final int LUMBER = 4;
+    public static final int ORE = 0;
+    public static final int SHEEP = 1;
+    public static final int BRICK = 2;
+    public static final int WHEAT = 3;
+    public static final int LUMBER = 4;
 
-    static final int ROAD = 5;
-    static final int SETTLEMENT = 6;
-    static final int CITY = 7;
-    static final int DEV_CARD = 8;
+    public static final int ROAD = 5;
+    public static final int SETTLEMENT = 6;
+    public static final int CITY = 7;
+    public static final int DEV_CARD = 8;
 
     int playerID;
     boolean threePort;
-    int[] resources = new int[5];
-    boolean[] ports = new boolean[5];
-    int[] devCards = new int[5];
+    private final short[] resources = new short[5];
+    private final boolean[] ports = new boolean[5];
+    private final short[] devCards = new short[5];
     int knights;
     int victoryPoints;
+    PlayerStrategy strategy;
 
-    public Player(int id) {
+    public Player(int id, PlayerStrategy strategy) {
         playerID = id;
+        this.strategy = strategy;
         threePort = false;
         knights = 0;
         victoryPoints = 0;
@@ -63,7 +71,7 @@ public abstract class Player {
             }//end if
         }//end for
         if (total != 0) {
-            promptDiscard(total);
+            strategy.promptDiscard(total);
         }//end if
     }//end discardResources
 
@@ -78,6 +86,12 @@ public abstract class Player {
             }//end if
         }//end for
         return -1;
+    }//end stealResource
+    
+    public int stealResources(int type) {
+        int temp = resources[type];
+        resources[type] = 0;
+        return temp;
     }//end stealResource
 
     public boolean canBuild(int type) {
@@ -101,9 +115,9 @@ public abstract class Player {
         }
         switch (type) {
             case SETTLEMENT: {
-                Corner selected = promptSettlementPlace();
-                if (selected.building == Corner.EMPTY
-                        || (selected.building == Corner.BLOCKED && selected.playerID == playerID)) {
+                Corner selected = strategy.promptSettlementPlace();
+                if (selected.getBuilding() == Corner.EMPTY
+                        || (selected.getBuilding() == Corner.BLOCKED && selected.getBuilding() == playerID)) {
                     if (Board.getInstance().placeSettlement(playerID, selected)) {
                         resources[SHEEP] -= 1;
                         resources[BRICK] -= 1;
@@ -114,8 +128,8 @@ public abstract class Player {
             }
             break;
             case CITY: {
-                Corner selected = promptCityPlace();
-                if (selected.building == Corner.SETTLEMENT && selected.playerID == playerID) {
+                Corner selected = strategy.promptCityPlace();
+                if (selected.getBuilding() == Corner.SETTLEMENT && selected.getPlayerID() == playerID) {
                     if (Board.getInstance().placeSettlement(playerID, selected)) {
                         resources[WHEAT] -= 2;
                         resources[ORE] -= 3;
@@ -124,8 +138,8 @@ public abstract class Player {
             }
             break;
             case ROAD: {
-                Edge selected = promptRoadPlace(1)[0];
-                if (!selected.hasRoad && selected.playerID == playerID) {
+                Edge selected = strategy.promptRoadPlace(1)[0];
+                if (!selected.hasRoad() && selected.getPlayerID() == playerID) {
                     if (Board.getInstance().placeRoad(playerID, selected)) {
                         resources[BRICK] -= 1;
                         resources[LUMBER] -= 1;
@@ -133,7 +147,6 @@ public abstract class Player {
                 }//end if
             }
             break;
-
             case DEV_CARD:
                 devCards[DevelopmentDeck.getInstance().randomElement()]++;
                 resources[SHEEP] -= 1;
@@ -180,7 +193,7 @@ public abstract class Player {
             }
         }//end for
 
-        return PlayerManager.getInstance(destinationID).promptTrade(sourceID, have, want);
+        return PlayerManager.getInstance(destinationID).strategy.promptTrade(sourceID, have, want);
     }//end tradePlayer
 
     public void useDevCard(int type) {
@@ -190,41 +203,22 @@ public abstract class Player {
 
         switch (type) {
             case DevelopmentDeck.MONOPOLY:
-                int resource = promptResourceTypeSelect();
+                int resource = strategy.promptResourceTypeSelect();
                 giveResources(resource, PlayerManager.stealResources(resource));
                 break;
             case DevelopmentDeck.ROAD_BUILDING:
-                promptRoadPlace(2);
+                strategy.promptRoadPlace(2);
                 break;
-            case DevelopmentDeck.SOLDIER:
-                promptRobberPlace();
+            case DevelopmentDeck.KNIGHT:
+                strategy.promptRobberPlace();
                 break;
             case DevelopmentDeck.VICTORY_POINT:
                 victoryPoints++;
                 break;
             case DevelopmentDeck.YEAR_OF_PLENTY:
-                giveResources(promptResourceSelect(2));
+                giveResources(strategy.promptResourceSelect(2));
         }//end switch
         devCards[type]--;
     }//end useDevCard
 
-    abstract boolean promptTrade(int sourceID, int[] have, int[] want);
-
-    abstract int[] promptResourceSelect(int quantity);
-
-    abstract int promptResourceTypeSelect();
-
-    abstract int promptPlayerSelect(int[] options);
-
-    abstract Edge[] promptRoadPlace(int quantity);
-
-    abstract Corner promptSettlementPlace();
-
-    abstract Corner promptCityPlace();
-
-    abstract int promptDiscard(int quantity);
-
-    abstract Tile promptRobberPlace();
-
-    abstract void showBoardState();
 }//end class Player

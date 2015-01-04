@@ -1,3 +1,5 @@
+package game;
+
 /////////////////////////////////////////////
 // File: Shuffler.java
 // Authors: Brady Steed and Michael Eaton
@@ -14,7 +16,7 @@ public class Shuffler<E> extends ArrayList<E>{
         rand = new Random();
     }//end constructor
         
-    E randomElement(){
+    public E randomElement(){
         if(this.size()==0)
             throw new IllegalStateException("Shuffler is empty.");
         return remove(rand.nextInt(this.size()));

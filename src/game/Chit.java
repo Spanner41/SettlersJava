@@ -1,3 +1,5 @@
+package game;
+
 /////////////////////////////////////////////
 // File: Chit.java
 // Authors: Brady Steed and Michael Eaton

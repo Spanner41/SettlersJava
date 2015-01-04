@@ -1,15 +1,30 @@
-/////////////////////////////////////////////
-// File: BoardBuilder.java
-// Authors: Brady Steed and Michael Eaton
-// Purpose: Builds and defines coordinates for Board object.
+package game;
 
+/////////////////////////////////////////////
 import java.util.LinkedList;
 import javafx.scene.shape.MeshView;
-import javafx.scene.shape.TriangleMesh;
 
-public class BoardBuilder {
+// File: Board.java
+// Authors: Brady Steed and Michael Eaton
+// Purpose: Singleton class that represents a Catan board.
+//   Keeps track of board state.
+//TODO: Add structures for expansions
+public class Board {
 
-    public static void build(Board board) {
+    private static Board board;
+    static final int CORNER_NUM = 6;
+
+    public static Board getInstance() {
+        if (board == null) {
+            board = new Board();
+        }
+        if (!board.complete) {
+            build();
+        }
+        return board;
+    }
+
+    public static void build() {
         //Eventually, choose this from a menu.
         final String path = "/resources/standardBoard.config";
         InputFileParser fileParser = new InputFileParser(path);
@@ -86,16 +101,15 @@ public class BoardBuilder {
             } else {
                 portType = portList.remove(0);
             }//end if/else
-            board.corners[fileParser.next()].port = portType;
-            board.corners[fileParser.next()].port = portType;
+            board.corners[fileParser.next()].setPort(portType);
+            board.corners[fileParser.next()].setPort(portType);
         }//end for
-        
+
         board.complete = true;
     }//end build
-    
-    static void placeTiles() {
-        Board board = Board.getInstance();
-        Tile [] tiles = board.tiles;
+
+    public static void placeTiles() {
+        Tile[] tiles = board.tiles;
         LinkedList<Tile> tileQueue = new LinkedList();
         Tile tile;
         Corner c1, c2;
@@ -104,115 +118,108 @@ public class BoardBuilder {
         double maxX = 0;
         double maxZ = 1;
         boolean[] queued = new boolean[tiles.length];
-        
+
         for (int i = 0; i < queued.length; i++) {
             queued[i] = false;
         }
 
-        tiles[0].corners[0].vertex = new Point(0, 0, 0);
-        tiles[0].corners[1].vertex = new Point(0, 0, 1);
+        tiles[0].corners[0].setVertex(new Point(0, 0, 0));
+        tiles[0].corners[1].setVertex(new Point(0, 0, 1));
         tiles[0].setRotation(0);
         tileQueue.add(tiles[0]);
         queued[0] = true;
 
         while (!tileQueue.isEmpty()) {
             tile = tileQueue.pollFirst();
-            MeshView mesh = createMesh();
+            MeshView mesh = Tile.createMesh();
             tile.setMesh(mesh);
 
             for (int i = 0; i < tile.corners.length * 2; i++) {
                 c1 = tile.corners[i % tile.corners.length];
                 c2 = tile.corners[(i + 1) % tile.corners.length];
 
-                if (c1.vertex != null && c2.vertex != null) {
-                    if (tile.center == null) {
-                        tile.center = completeTriangle(c1.vertex, c2.vertex);
+                if (c1.getVertex() != null && c2.getVertex() != null) {
+                    if (tile.getCenter() == null) {
+                        tile.setCenter(Point.completeTriangle(c1.getVertex(), c2.getVertex()));
                     }//end if
-                    if (tile.corners[(i + 2) % tile.corners.length].vertex == null) {
-                        tile.corners[(i + 2) % tile.corners.length].vertex = completeTriangle(tile.center, c2.vertex);
+                    if (tile.corners[(i + 2) % tile.corners.length].getVertex() == null) {
+                        tile.corners[(i + 2) % tile.corners.length].setVertex(Point.completeTriangle(tile.getCenter(), c2.getVertex()));
                     }//end if
                 }//end if
             }//end for
-            
+
             for (Corner corner : tile.corners) {
-                for (Tile next : corner.tiles) {
-                    if(next != null && !queued[next.id]){
+                for (Tile next : corner.getTiles()) {
+                    if (next != null && !queued[next.id]) {
                         tileQueue.add(next);
                         queued[next.id] = true;
                     }//end if
                 }//end for
             }//end for
         }//end while
-        
+
         for (Corner corner : board.corners) {
-            minX = Math.min(corner.vertex.x, minX);
-            minZ = Math.min(corner.vertex.z, minZ);
-            maxX = Math.max(corner.vertex.x, maxX);
-            maxZ = Math.max(corner.vertex.z, maxZ);
+            minX = Math.min(corner.getCenter().getX(), minX);
+            minZ = Math.min(corner.getCenter().getZ(), minZ);
+            maxX = Math.max(corner.getCenter().getX(), maxX);
+            maxZ = Math.max(corner.getCenter().getZ(), maxZ);
         }//end for
-        
+
         for (Corner corner : board.corners) {
-            corner.vertex.x -= (minX+maxX)/2;
-            corner.vertex.z -= (minZ+maxZ)/2;
+            corner.getCenter().setX(corner.getCenter().getX() - (minX + maxX) / 2);
+            corner.getCenter().setZ(corner.getCenter().getZ() - (minX + maxX) / 2);
         }//end for
-        
+
         for (Tile current : board.tiles) {
-            current.center.x -= (minX+maxX)/2;
-            current.center.z -= (minZ+maxZ)/2;
+            current.getCenter().setX(current.getCenter().getX() - (minX + maxX) / 2);
+            current.getCenter().setZ(current.getCenter().getZ() - (minX + maxX) / 2);
         }
         board.width = maxX;
         board.height = maxZ;
     }//end
 
-    public static double distance(Point a, Point b){
-        double dx = a.x-b.x;
-        double dz = a.z-b.z;
-        return Math.sqrt((dx*dx) + (dz*dz));
-    }//end distance
-    
-    //Returns the third point in an equalateral triangle.  Assumes clockwise winding.
-    static Point completeTriangle(Point a, Point b) {
-        Point midpoint = new Point((a.x + b.x) / 2, 0, (a.z + b.z) / 2);
-        double length = distance(a, b);
-        double height = Math.sqrt(3) / 2 * length;
-        Point vector = new Point((a.z - b.z)/length, 0, (b.x - a.x)/length); //unit vector
+    public static Tile[] getTiles() {
+        return board.tiles;
+    }
 
-        return new Point(midpoint.x + (vector.x * height), 0, midpoint.z + (vector.z * height));
-    }//end findCenter
-    
-    private static MeshView createMesh() {
-    float[] points = {
-        -0.866f, 0f, 0.5f,
-        0f, 0f, 1f,
-        0.866f, 0f, 0.5f,
-        0.866f, 0f, -0.5f,
-        0f, 0f, -1f,
-        -0.866f, 0f, -0.5f,
-        0f, 0f, 0f
-    };
-    float[] texCoords = {
-        0f, 0.25f,
-        0.5f, 0f,
-        1f, 0.25f,
-        1f, 0.75f,
-        0.5f, 1f,
-        0f, 0.75f,
-        0.5f, 0.5f
-    };
-    int[] faces = {
-        6, 6, 1, 1, 0, 0,
-        6, 6, 2, 2, 1, 1,
-        6, 6, 3, 3, 2, 2,
-        6, 6, 4, 4, 3, 3,
-        6, 6, 5, 5, 4, 4,
-        6, 6, 0, 0, 5, 5,
-    };
+    private Tile[] tiles;
+    private Corner[] corners;
+    private Edge[] edges;
+    private Chit[] chits;
+    public boolean shuffleChits;
+    public boolean shufflePorts;
+    public boolean complete;
+    public double width;
+    public double height;
 
-    TriangleMesh mesh = new TriangleMesh();
-    mesh.getPoints().setAll(points);
-    mesh.getTexCoords().setAll(texCoords);
-    mesh.getFaces().setAll(faces);
+    private Board() {
+        shuffleChits = false;
+        shufflePorts = false;
+        complete = false;
+        width = 0;
+        height = 0;
+    }
 
-    return new MeshView(mesh);
-  }
+    public void activateChits(int value) {
+        for (Chit c : chits) {
+            if (c.value == value) {
+                c.activate();
+            }
+        }
+    }//end activateChits
+
+    //TODO: implement
+    public boolean placeRoad(int playerID, Edge location) {
+        return location.setRoad(playerID);
+    }//end placeRoad
+
+    //TODO: implement
+    public boolean placeSettlement(int playerID, Corner location) {
+        return false;
+    }
+
+    //TODO: implement
+    public boolean placeCity(int playerID, Corner location) {
+        return false;
+    }
 }

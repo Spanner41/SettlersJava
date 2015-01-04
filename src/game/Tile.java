@@ -1,3 +1,5 @@
+package game;
+
 /////////////////////////////////////////////
 // File: Tile.java
 // Authors: Brady Steed and Michael Eaton
@@ -5,32 +7,29 @@
 // TODO:
 //   Add texture/3D model stuff
 
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.DrawMode;
 import javafx.scene.shape.MeshView;
+import javafx.scene.shape.TriangleMesh;
 import javafx.scene.transform.Rotate;
 
 public class Tile {
-    static final int TILE_TYPES = 7;
-    static final int MOUNTAIN = 0;
-    static final int PASTURE = 1;
-    static final int HILL = 2;
-    static final int FIELD = 3;
-    static final int FOREST = 4;
-    static final int DESERT = 5;
-    static final int SEA = 6;
+    public static final int TILE_TYPES = 7;
+    public static final int MOUNTAIN = 0;
+    public static final int PASTURE = 1;
+    public static final int HILL = 2;
+    public static final int FIELD = 3;
+    public static final int FOREST = 4;
+    public static final int DESERT = 5;
+    public static final int SEA = 6;
     
     int id;
     Chit chit;
     int type;
-    Point center = null;
+    private Point center = null;
     Corner[] corners;
     int cornerCount = 0;
     private MeshView mesh = null;
-    private Image texture = null;
-    PhongMaterial texturedMaterial = new PhongMaterial();
     private float rotation;
 
     public void setRotation(float rotation) {
@@ -45,16 +44,8 @@ public class Tile {
         return rotation;
     }
 
-    public Image getTexture() {
-        return texture;
-    }
-
     public MeshView getMesh() {
         return mesh;
-    }
-
-    public void setTexture(Image texture) {
-        this.texture = texture;
     }
 
     public void setMesh(MeshView mesh) {
@@ -129,4 +120,48 @@ public class Tile {
     void setID(int i) {
         id = i;
     }
+    
+    public Point getCenter(){
+        return center;
+    }
+
+    void setCenter(Point center) {
+        this.center = center;
+    }
+    
+    public static MeshView createMesh() {
+    float[] points = {
+        -0.866f, 0f, 0.5f,
+        0f, 0f, 1f,
+        0.866f, 0f, 0.5f,
+        0.866f, 0f, -0.5f,
+        0f, 0f, -1f,
+        -0.866f, 0f, -0.5f,
+        0f, 0f, 0f
+    };
+    float[] texCoords = {
+        0f, 0.25f,
+        0.5f, 0f,
+        1f, 0.25f,
+        1f, 0.75f,
+        0.5f, 1f,
+        0f, 0.75f,
+        0.5f, 0.5f
+    };
+    int[] faces = {
+        6, 6, 1, 1, 0, 0,
+        6, 6, 2, 2, 1, 1,
+        6, 6, 3, 3, 2, 2,
+        6, 6, 4, 4, 3, 3,
+        6, 6, 5, 5, 4, 4,
+        6, 6, 0, 0, 5, 5,
+    };
+
+    TriangleMesh mesh = new TriangleMesh();
+    mesh.getPoints().setAll(points);
+    mesh.getTexCoords().setAll(texCoords);
+    mesh.getFaces().setAll(faces);
+
+    return new MeshView(mesh);
+  }
 }

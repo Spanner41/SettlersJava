@@ -1,26 +1,40 @@
+package player;
+
+
+import game.Edge;
+import game.Corner;
+import game.Tile;
+
 /////////////////////////////////////////////
-// File: NetworkPlayer.java
-// Authors: Brady Steed and Michael Eaton
-// Purpose: Sends and recieves commands via sockets.
-// TODO:
-//   Create protocol.  Stuff sockets.
-//   Change NetworkPlayer into an AI Strategy.
-//   Encryption
-//   Anti-cheating
+// File: HumanStrategy.java
+// Authors: Brady Steed
+// Purpose: Implements abstract class, PlayerStrategy.java
+//   Sends events to UI any time the game-state changes.
 
-class NetworkPlayer extends Player {
+public class HumanStrategy extends PlayerStrategy {
 
-    public NetworkPlayer(int id) {
-        super(id);
+    @Override
+    boolean promptTrade(int sourceID, int[] have, int[] want) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean promptTrade(int sourceID, int[] have, int[] want) {
+    int[] promptResourceSelect(int quantity) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    int promptResourceTypeSelect() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     int promptPlayerSelect(int[] options) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    Edge[] promptRoadPlace(int quantity) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -35,32 +49,17 @@ class NetworkPlayer extends Player {
     }
 
     @Override
-    Tile promptRobberPlace() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    int[] promptResourceSelect(int quantity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    Edge[] promptRoadPlace(int quantity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     int promptDiscard(int quantity) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    void showBoardState() {
+    Tile promptRobberPlace() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    int promptResourceTypeSelect() {
+    void showBoardState() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

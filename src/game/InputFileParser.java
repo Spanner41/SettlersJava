@@ -1,3 +1,5 @@
+package game;
+
 /////////////////////////////////////////////
 // File: InputFileParser.java
 // Authors: Brady Steed and Michael Eaton

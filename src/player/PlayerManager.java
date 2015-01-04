@@ -1,3 +1,5 @@
+package player;
+
 /////////////////////////////////////////////
 // File: PlayerManager.java
 // Authors: Brady Steed and Michael Eaton
@@ -9,30 +11,29 @@ public class PlayerManager {
 
     final private static ArrayList<Player> players = new ArrayList();
 
-    static Player createInstance(String type) {
+    public static Player createInstance(String type) {
         if (type.equalsIgnoreCase("HUMAN")) {
-            players.add(new HumanPlayer(players.size()));
+            players.add(new Player(players.size(), new HumanStrategy()));
         } else if (type.equalsIgnoreCase("COMPUTER")) {
-            players.add(new ComputerPlayer(players.size()));
+            players.add(new Player(players.size(), new ComputerStrategy()));
         } else if (type.equalsIgnoreCase("NETWORK")) {
-            players.add(new NetworkPlayer(players.size()));
+            players.add(new Player(players.size(), new NetworkStrategy()));
         } else {
             return null;
         }
         return players.get(players.size() - 1);
     }//end createInstance
 
-    static Player getInstance(int playerID) {
+    public static Player getInstance(int playerID) {
         return players.get(playerID);
     }//end getInstance
 
     //for monopoly card
-    static int stealResources(int type) {
+    public static int stealResources(int type) {
 
         int total = 0;
         for (Player p : players) {
-            total += p.resources[type];
-            p.resources[type] = 0;
+            total += p.stealResources(type);
         }
         return total;
     }//end stealResources
