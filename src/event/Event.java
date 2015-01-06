@@ -1,7 +1,8 @@
 /*
- * File: Dice.java
+ * File: Event.java
  * Author: Brady Steed
- * Purpose: Gives random number from 2-12 with the same odds as rolling 2 dice.
+ * Purpose: Abstract class for event data structures.
+ *    Describes any changes in game state.
  *
  * Copyright (C) 2015 Brady Steed
  *
@@ -20,19 +21,27 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-package game;
+package event;
 
-/////////////////////////////////////////////
-// File: Dice.java
-// Author: Brady Steed 
-// Purpose: 
-
-import java.util.Random;
-
-public class Dice {
-    private static final Random rand = new Random();
+public abstract class Event {
+    private static final int ID_FIRST = 0;
+    private static final int ID_LAST = 0;
     
-    static int roll(){
-        return 2 + rand.nextInt(6) + rand.nextInt(6);
-    }//end roll
-}//end Dice
+    private final int source;
+    protected final int type;
+
+    public Event(int id, int source){
+        this.source = source;
+        this.type = id;
+        if(this.type < ID_FIRST || this.type > ID_LAST)
+            System.out.println("Event ID out of range.");
+    }
+    
+    public int getSource() {
+        return source;
+    }
+
+    public int getID() {
+        return type;
+    }
+}

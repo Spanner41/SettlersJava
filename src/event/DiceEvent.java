@@ -1,7 +1,7 @@
 /*
- * File: Dice.java
+ * File: DiceEvent.java
  * Author: Brady Steed
- * Purpose: Gives random number from 2-12 with the same odds as rolling 2 dice.
+ * Purpose: Encapsulates information about dice events for players
  *
  * Copyright (C) 2015 Brady Steed
  *
@@ -19,20 +19,22 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+package event;
 
-package game;
-
-/////////////////////////////////////////////
-// File: Dice.java
-// Author: Brady Steed 
-// Purpose: 
-
-import java.util.Random;
-
-public class Dice {
-    private static final Random rand = new Random();
+public class DiceEvent extends Event{
+    protected static final int ID_FIRST = 0;
+    protected static final int ID_LAST = 0;
     
-    static int roll(){
-        return 2 + rand.nextInt(6) + rand.nextInt(6);
-    }//end roll
-}//end Dice
+    public static final int ROLL = 0;
+    
+    private final int value;
+
+    public DiceEvent(int type, int source, int value) {
+        super(type, source);
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return value;
+    }
+}

@@ -1,18 +1,34 @@
-package game;
+/*
+ * File: DevelopmentDeck.java
+ * Author: Brady Steed
+ * Purpose: Gives development cards to players in random order.
+ * TODO: Configure for expansions.
+ *     Need to add more card types and put deck ammounts in config file.
+ *
+ * Copyright (C) 2015 Brady Steed
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
 
+package game;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 
-/////////////////////////////////////////////
-// File: DevelopmentDeck.java
-// Authors: Brady Steed and Michael Eaton
-// Purpose: Gives development cards to players in random order.
-// TODO:
-//   Configure for expansions.  Need to add more card types and put deck ammounts in config file.
-
 public class DevelopmentDeck extends Shuffler<Integer> {
-    private static DevelopmentDeck devDeck;
+    private static DevelopmentDeck devDeck = null;
     public final static int KNIGHT = 0;
     public final static int VICTORY_POINT = 1;
     public final static int MONOPOLY = 2;

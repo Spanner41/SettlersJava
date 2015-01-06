@@ -1,20 +1,38 @@
+/*
+ * File: Chit.java
+ * Author: Brady Steed
+ * Purpose: Notifies Tiles of when to produce resources
+ *
+ * Copyright (C) 2015 Brady Steed
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
 package game;
 
-/////////////////////////////////////////////
-// File: Chit.java
-// Authors: Brady Steed and Michael Eaton
-// Purpose: Notifies Tiles of when to produce resources
-
 public class Chit {
-    int value;
-    int dots;
-    Tile tile;
+    private int value;
+    private int dots;
+    private Tile tile;
     
     public Chit(int value){
         if (value < 2 || value > 12 || value == 7){
             System.out.println("Error: value=" + value);
-            value = 1;
+            this.value = 1;
         }
+        this.value = value;
         if(value > 7) dots = 13 - value;
         else dots = value - 1;
     }
@@ -27,14 +45,12 @@ public class Chit {
         tile.produce();
     }//end activate
     
-    /*public static void main(String[] args) {
-        Chit test = new Chit(3);
-        System.out.println("Expected: 2; Actual: " + test.dots );
-        test = new Chit(8);
-        System.out.println("Expected: 5; Actual: " + test.dots );
-        
-        test = new Chit(1); //Should throw exception
-        System.out.println("Expected: ?; Actual: " + test.dots );
-    }//end psvm*/
+    public int getDots(){
+        return dots;
+    }//end getDots
+    
+    public int getValue(){
+        return value;
+    }//end getValue
 }//end Chit
 

@@ -1,6 +1,6 @@
 /////////////////////////////////////////////
 // File: Settlers.java
-// Authors: Brady Steed and Michael Eaton
+// Author: Brady Steed 
 // Purpose: Main class of project.  Not yet implemented.
 
 public class Settlers {

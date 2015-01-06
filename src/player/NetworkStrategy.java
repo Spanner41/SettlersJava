@@ -1,68 +1,98 @@
-package player;
+/*
+ * File: NetworkStrategy.java
+ * Author: Brady Steed
+ * Purpose: Implements abstract class, PlayerStrategy.java
+ *    Communicates with players over a network any time the game-state changes.
+ *
+ * Copyright (C) 2015 Brady Steed
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
 
-/////////////////////////////////////////////
-// File: NetworkStrategy.java
-// Authors: Brady Steed
-// Purpose: Implements abstract class, PlayerStrategy.java
-//   Communicates with players over a network any time the game-state changes.
+package player;
 
 import game.Edge;
 import game.Corner;
 import game.Tile;
 import java.net.Socket;
 
-public class NetworkStrategy extends PlayerStrategy {
-
+public class NetworkStrategy implements PlayerStrategy {
     Socket socket;
-    
+
     @Override
-    boolean promptTrade(int sourceID, int[] have, int[] want) {
+    public boolean promptTrade(int sourceID, int[] have, int[] want) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    int[] promptResourceSelect(int quantity) {
+    public int[] promptResourceSelect(int quantity) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    int promptResourceTypeSelect() {
+    public int promptResourceTypeSelect() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    int promptPlayerSelect(int[] options) {
+    public int promptPlayerSelect(int[] options) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    Edge[] promptRoadPlace(int quantity) {
+    public Edge[] promptRoadPlace(int quantity) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    Corner promptSettlementPlace() {
+    public Corner promptSettlementPlace() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    Corner promptCityPlace() {
+    public Corner promptCityPlace() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    int promptDiscard(int quantity) {
+    public int promptDiscard(int quantity) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    Tile promptRobberPlace() {
+    public Tile promptRobberPlace() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    void showBoardState() {
+    public void showBoardState() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    @Override
+    public void notifyDiceRoll(int value) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyResourceGet(int value) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyResourceDiscard(int value) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

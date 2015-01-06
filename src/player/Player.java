@@ -1,15 +1,33 @@
-package player;
+/*
+ * File: Player.java
+ * Author: Brady Steed
+ * Purpose: Abstract class that is controlled by PlayerManager.
+ *    Holds game data for players.  All events are handled by PlayerStrategy.
+ *
+ * Copyright (C) 2015 Brady Steed
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
 
-/////////////////////////////////////////////
-// File: Player.java
-// Authors: Brady Steed and Michael Eaton
-// Purpose: Abstract class that is controlled by PlayerManager.
-//  Holds game data for players.  All game interaction methods are abstract.
+package player;
 
 import game.Edge;
 import game.Board;
 import game.Corner;
 import game.DevelopmentDeck;
+import game.Tile;
 import java.util.Random;
 
 public class Player {
@@ -25,13 +43,14 @@ public class Player {
     public static final int CITY = 7;
     public static final int DEV_CARD = 8;
 
-    int playerID;
+    private final int playerID;
     boolean threePort;
-    private final short[] resources = new short[5];
-    private final boolean[] ports = new boolean[5];
-    private final short[] devCards = new short[5];
-    int knights;
-    int victoryPoints;
+    private short[] resources = new short[5];
+    private boolean[] ports = new boolean[5];
+    private short[] devCards = new short[5];
+    private int knights;
+    private int roads;
+    private int victoryPoints;
     PlayerStrategy strategy;
 
     public Player(int id, PlayerStrategy strategy) {
@@ -39,6 +58,7 @@ public class Player {
         this.strategy = strategy;
         threePort = false;
         knights = 0;
+        roads = 0;
         victoryPoints = 0;
 
         for (int i = 0; i < resources.length; i++) {
@@ -87,6 +107,10 @@ public class Player {
         }//end for
         return -1;
     }//end stealResource
+
+    public int getVictoryPoints() {
+        return victoryPoints;
+    }
     
     public int stealResources(int type) {
         int temp = resources[type];
@@ -108,6 +132,14 @@ public class Player {
                 return false;
         }//end switch
     }//end canBuild
+
+    public int getPlayerID() {
+        return playerID;
+    }
+
+    public int getKnights() {
+        return knights;
+    }
 
     public boolean build(int type) {
         if (!canBuild(type)) {
@@ -208,9 +240,11 @@ public class Player {
                 break;
             case DevelopmentDeck.ROAD_BUILDING:
                 strategy.promptRoadPlace(2);
+                roads++;
                 break;
             case DevelopmentDeck.KNIGHT:
                 strategy.promptRobberPlace();
+                knights++;
                 break;
             case DevelopmentDeck.VICTORY_POINT:
                 victoryPoints++;
@@ -221,4 +255,43 @@ public class Player {
         devCards[type]--;
     }//end useDevCard
 
+    public boolean promptTrade(int sourceID, int[] have, int[] want){
+        return strategy.promptTrade(sourceID, have, want);
+    }
+
+    public int[] promptResourceSelect(int quantity){
+        return strategy.promptResourceSelect(quantity);
+    }
+
+    public int promptResourceTypeSelect(){
+        return strategy.promptResourceTypeSelect();
+    }
+
+    public int promptPlayerSelect(int[] options){
+        return strategy.promptPlayerSelect(options);
+    }
+
+    public Edge[] promptRoadPlace(int quantity){
+        return strategy.promptRoadPlace(quantity);
+    }
+
+    public Corner promptSettlementPlace(){
+        return strategy.promptSettlementPlace();
+    }
+
+    public Corner promptCityPlace(){
+        return strategy.promptCityPlace();
+    }
+
+    public int promptDiscard(int quantity){
+        return strategy.promptDiscard(quantity);
+    }
+
+    public Tile promptRobberPlace(){
+        return strategy.promptRobberPlace();
+    }
+
+    public void notifyDiceRoll(int value) {
+        strategy.notifyDiceRoll(value);
+    }
 }//end class Player

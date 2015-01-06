@@ -1,11 +1,27 @@
-package game;
+/*
+ * File: Tile.java
+ * Author: Brady Steed
+ * Purpose: Tile object has refrences to its corners and keeps track of paint related stuff
+ * TODO: Add texture/3D model stuff
+ *
+ * Copyright (C) 2015 Brady Steed
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
 
-/////////////////////////////////////////////
-// File: Tile.java
-// Authors: Brady Steed and Michael Eaton
-// Purpose: Tile object has refrences to its corners and keeps track of paint related stuff
-// TODO:
-//   Add texture/3D model stuff
+package game; 
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.DrawMode;
@@ -23,12 +39,12 @@ public class Tile {
     public static final int DESERT = 5;
     public static final int SEA = 6;
     
-    int id;
-    Chit chit;
-    int type;
+    private int id;
+    private Chit chit;
+    private int type;
     private Point center = null;
-    Corner[] corners;
-    int cornerCount = 0;
+    private Corner[] corners;
+    private int cornerCount = 0;
     private MeshView mesh = null;
     private float rotation;
 
@@ -38,6 +54,30 @@ public class Tile {
             mesh.setRotationAxis(Rotate.Y_AXIS);
             mesh.setRotate(rotation);
         }
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public Chit getChit() {
+        return chit;
+    }
+
+    public void setChit(Chit chit) {
+        this.chit = chit;
+    }
+
+    public int getID() {
+        return id;
+    }
+
+    public Corner getCorner(int x) {
+        return corners[x];
+    }
+
+    public Corner[] getCorners() {
+        return corners;
     }
 
     public float getRotation() {

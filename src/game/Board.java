@@ -1,16 +1,33 @@
+/*
+ * File: Board.java
+ * Author: Brady Steed
+ * Purpose: Singleton class that represents a Catan board.
+ *     Keeps track of board state.
+ * TODO: Add structures for expansions
+ *
+ * Copyright (C) 2015 Brady Steed
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
 package game;
 
-/////////////////////////////////////////////
 import java.util.LinkedList;
 import javafx.scene.shape.MeshView;
 
-// File: Board.java
-// Authors: Brady Steed and Michael Eaton
-// Purpose: Singleton class that represents a Catan board.
-//   Keeps track of board state.
-//TODO: Add structures for expansions
 public class Board {
-
     private static Board board;
     static final int CORNER_NUM = 6;
 
@@ -24,7 +41,7 @@ public class Board {
         return board;
     }
 
-    public static void build() {
+    protected static void build() {
         //Eventually, choose this from a menu.
         final String path = "/resources/standardBoard.config";
         InputFileParser fileParser = new InputFileParser(path);
@@ -80,11 +97,11 @@ public class Board {
             chitList.add(board.chits[i]);
         }//end for
         for (Tile t : board.tiles) {
-            if (t.type != Tile.DESERT) {
+            if (t.getType() != Tile.DESERT) {
                 if (board.shuffleChits) {
-                    t.chit = chitList.randomElement();
+                    t.setChit(chitList.randomElement());
                 } else {
-                    t.chit = chitList.remove(0);
+                    t.setChit(chitList.remove(0));
                 }//end if/else
             }//end if
         }//end for
@@ -123,8 +140,8 @@ public class Board {
             queued[i] = false;
         }
 
-        tiles[0].corners[0].setVertex(new Point(0, 0, 0));
-        tiles[0].corners[1].setVertex(new Point(0, 0, 1));
+        tiles[0].getCorner(0).setVertex(new Point(0, 0, 0));
+        tiles[0].getCorner(1).setVertex(new Point(0, 0, 1));
         tiles[0].setRotation(0);
         tileQueue.add(tiles[0]);
         queued[0] = true;
@@ -134,25 +151,26 @@ public class Board {
             MeshView mesh = Tile.createMesh();
             tile.setMesh(mesh);
 
-            for (int i = 0; i < tile.corners.length * 2; i++) {
-                c1 = tile.corners[i % tile.corners.length];
-                c2 = tile.corners[(i + 1) % tile.corners.length];
+            Corner[] corners = tile.getCorners();
+            for (int i = 0; i < corners.length * 2; i++) {
+                c1 = corners[i % corners.length];
+                c2 = corners[(i + 1) % corners.length];
 
                 if (c1.getVertex() != null && c2.getVertex() != null) {
                     if (tile.getCenter() == null) {
                         tile.setCenter(Point.completeTriangle(c1.getVertex(), c2.getVertex()));
                     }//end if
-                    if (tile.corners[(i + 2) % tile.corners.length].getVertex() == null) {
-                        tile.corners[(i + 2) % tile.corners.length].setVertex(Point.completeTriangle(tile.getCenter(), c2.getVertex()));
+                    if (corners[(i + 2) % corners.length].getVertex() == null) {
+                        corners[(i + 2) % corners.length].setVertex(Point.completeTriangle(tile.getCenter(), c2.getVertex()));
                     }//end if
                 }//end if
             }//end for
 
-            for (Corner corner : tile.corners) {
+            for (Corner corner : corners) {
                 for (Tile next : corner.getTiles()) {
-                    if (next != null && !queued[next.id]) {
+                    if (next != null && !queued[next.getID()]) {
                         tileQueue.add(next);
-                        queued[next.id] = true;
+                        queued[next.getID()] = true;
                     }//end if
                 }//end for
             }//end for
@@ -166,49 +184,63 @@ public class Board {
         }//end for
 
         for (Corner corner : board.corners) {
-            corner.getCenter().setX(corner.getCenter().getX() - (minX + maxX) / 2);
-            corner.getCenter().setZ(corner.getCenter().getZ() - (minX + maxX) / 2);
+            corner.getCenter().translateX(- (minX + maxX) / 2);
+            corner.getCenter().translateZ(- (minX + maxX) / 2);
         }//end for
 
         for (Tile current : board.tiles) {
-            current.getCenter().setX(current.getCenter().getX() - (minX + maxX) / 2);
-            current.getCenter().setZ(current.getCenter().getZ() - (minX + maxX) / 2);
+            current.getCenter().translateX(- (minX + maxX) / 2);
+            current.getCenter().translateZ(- (minX + maxX) / 2);
         }
         board.width = maxX;
         board.height = maxZ;
-    }//end
+    }//end placeTiles
 
     public static Tile[] getTiles() {
         return board.tiles;
     }
-
+    
+//////////////////////////END STATIC METHODS///////////////////////////////////
+    
     private Tile[] tiles;
     private Corner[] corners;
     private Edge[] edges;
     private Chit[] chits;
-    public boolean shuffleChits;
-    public boolean shufflePorts;
-    public boolean complete;
-    public double width;
-    public double height;
+    private boolean shuffleChits;
+    private boolean shufflePorts;
+    private boolean complete;
+    private double width;
+    private double height;
+    
+    /*Contains the id of the player with the largest army*/
+    private int largestArmy = -1;
+    
+    /*Contains the id of the player with the longest road*/
+    private int longestRoad = -1;
 
     private Board() {
         shuffleChits = false;
         shufflePorts = false;
         complete = false;
-        width = 0;
-        height = 0;
+        width = 0.0;
+        height = 0.0;
     }
-
-    public void activateChits(int value) {
+protected void activateChits(int value) {
         for (Chit c : chits) {
-            if (c.value == value) {
+            if (c.getValue() == value) {
                 c.activate();
-            }
-        }
+            }//end if
+        }//end for
     }//end activateChits
 
-    //TODO: implement
+    public double getHeight() {
+        return height;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
     public boolean placeRoad(int playerID, Edge location) {
         return location.setRoad(playerID);
     }//end placeRoad
